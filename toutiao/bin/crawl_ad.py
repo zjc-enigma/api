@@ -1,6 +1,9 @@
 #coding=utf-8
 import os
+from os.path import isfile, join
 import sys
+reload(sys)
+sys.setdefaultencoding('UTF8')
 sys.path.append("/Users/Patrick/Git")
 from utils import myutils
 import requests
@@ -17,6 +20,8 @@ browser.get(base_url)
 browser.refresh()
 
 res = []
+crawled_ad_path = "../data/crawled_ad"
+
 
 def get_ad_titles(res):
 
@@ -45,7 +50,25 @@ def print_crawled_titles(res):
 
 if __name__=="__main__":
 
-    click_refresh_btn()
-    get_ad_titles(res)
+    if isfile(crawled_ad_path):
+        for ad in open(crawled_ad_path):
+            ad = ad.strip()
+            res.append(ad)
 
-    print_crawled_titles(res)
+
+    refresh_times = 2000
+    get_ad_titles(res)
+    for i in range(refresh_times):
+        print ("refreshing %d times" % i)
+        click_refresh_btn()
+        get_ad_titles(res)
+        time.sleep(1)
+
+
+    res = myutils.list_remove_dup(res)
+    wfd = open(crawled_ad_path, 'w')
+    for ad in res:
+        wfd.write(ad + '\n')
+
+    wfd.close()
+

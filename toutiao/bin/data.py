@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.append('..')
 import re
-
+import random
 
 titles_path = '../data/toutiao.txt'
 rule_path = '../data/rule.conf'
@@ -77,4 +77,28 @@ def all_titles_classify(title_path, rule_path):
     return res_dict
 
 
+def random_select_titles(res_dict, title_num):
+    """
+    Keyword Arguments:
+    title_num -- titles num in each tag(int > 0)
+    res_dict  -- tag -> title dict(utf8)
+
+    return -- random selected title dict(utf8)
+
+    """
+    random_dict = {}
+    for tag in res_dict:
+        title_list = res_dict[tag]
+
+        if len(title_list) <= title_num:
+            random_dict[tag] = title_list
+
+        else:
+            random_dict[tag] = random.sample(title_list, title_num)
+
+    return random_dict
+
+
 res_dict = all_titles_classify(titles_path, rule_path)
+
+#random_dict = random_select_titles(res_dict, 10)
