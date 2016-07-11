@@ -124,9 +124,21 @@
             <h2>Table of Contents</h2>
             <div id="text-table-of-contents">
                 <ul>
+                <li><a href="#orgheadline25">Random Titles   <span class="tag"><span class="home">home</span></span></a>
+                <ul>
                     {% for tag, title_list in res_dict.iteritems() %}
                         <li><a href="#orgheadline{{loop.index}}">{{loop.index}}. {{tag|e}}</a></li>
                     {% endfor %}
+                </ul>
+                </li>
+
+                <li><a href="#orgheadline266">Random Ads  <span class="tag"><span class="home">Place</span></span></a>
+                    <ul>
+                        <li><a>A</a></li>
+                        <li><a>B</a></li>
+                        <li><a>C</a></li>
+                    </ul>
+                </li>
                 </ul>
             </div>
         </div>
@@ -135,21 +147,25 @@
 
         <div class="container">
             <div class="row col-md-8">
-
-                {% for tag, title_list in res_dict.iteritems() %}
-                    <h2 id="orgheadline{{loop.index}}" class="sub-header">{{tag|e}}</h2>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <tbody>
-                                {% for title in title_list %}
-                                    <tr>
-                                        <td>{{title|e}}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                {% endfor %}
+                <div id="outline-container-orgheadline25" class="outline-2">
+                    <h2 id="orgheadline25">Random Titles   <span class="tag"><span class="home">home</span></span></h2>
+                    {% for tag, title_list in res_dict.iteritems() %}
+                        <div id="outline-container-orgheadline{{loop.index}}" class="outline-3">
+                            <h3 id="orgheadline{{loop.index}}">{{tag|e}}</h3>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        {% for title in title_list %}
+                                            <tr>
+                                                <td>{{title|e}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

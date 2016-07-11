@@ -5,100 +5,122 @@ sys.path.append('..')
 import re
 import random
 
-titles_path = '../data/toutiao.txt'
-rule_path = '../data/rule.conf'
+#titles_path = '../data/toutiao.txt'
+
+class TitleTagger(object):
+
+    def __init__(self, titles_path, rule_path):
+
+        self.titles_path = titles_path
+        self.rule_path = rule_path
+        self.rule_list = []
+        self.res_dict = {}
+        self.all_titles_classify()
+        self.random_dict = {}
 
 
-def find_title_tag(title, rule_list):
+    def find_title_tag(self, title):
 
-    """
-    Keyword Arguments:
-    title     -- toutiao title (utf8)
-    rule_list -- rule tag -> regex list (unicode dict list)
+        """
+        Keyword Arguments:
+        title     -- toutiao title (utf8)
+        rule_list -- rule tag -> regex list (unicode dict list)
 
-    return -- tag(utf8)
+        return -- tag(utf8)
 
-    """
-    for rule in rule_list:
+        """
+        for rule in self.rule_list:
 
-        tag = rule.keys()[0]
-        regex_list = rule[tag]
+            tag = rule.keys()[0]
+            regex_list = rule[tag]
 
-        for regex in regex_list:
+            for regex in regex_list:
 
-            if re.search(re.escape(regex), title.decode('utf8')):
-                return tag.encode('utf8')
+                if re.search(re.escape(regex), title.decode('utf8')):
+                    return tag.encode('utf8')
 
-    return "未知体"
-
-
-
-def all_titles_classify(title_path, rule_path):
-    """
-    Keyword Arguments:
-    title_path -- all titles data file path ; all titles string(utf8)
-    rule_path  -- all classify rule file path ; all rule string(utf8)
-
-    return -- classified list, key is rule tag(utf8) ; value is titles(utf8)
-
-    """
-
-    res_dict = {}
-    rule_list = []
-
-    for line in open(rule_path):
-
-        line = line.decode('utf8')
-        line = line.strip()
-        line = line.split('\t')
-
-        if len(line) != 3:
-            print ("invalid line in rule file")
-            continue
-
-        tag = line[1]
-        regex_list = line[2].split(',')
-
-        rule_list.append({tag:regex_list})
-
-    for line in open(titles_path):
-
-        line = line.strip()
-        line = line.split('\t')
-        title = line[0]
-        tag = find_title_tag(title, rule_list)
-
-        if tag not in res_dict:
-            res_dict[tag] = [title]
-
-        else:
-            res_dict[tag].append(title)
-
-    return res_dict
+        return "未知体"
 
 
-def random_select_titles(res_dict, title_num):
-    """
-    Keyword Arguments:
-    title_num -- titles num in each tag(int > 0)
-    res_dict  -- tag -> title dict(utf8)
 
-    return -- random selected title dict(utf8)
+    def all_titles_classify(self):
+        """
+        Keyword Arguments:
+        title_path -- all titles data file path ; all titles string(utf8)
+        rule_path  -- all classify rule file path ; all rule string(utf8)
 
-    """
-    random_dict = {}
-    for tag in res_dict:
-        title_list = res_dict[tag]
+        return -- classified list, key is rule tag(utf8) ; value is titles(utf8)
 
-        if len(title_list) <= title_num:
-            random_dict[tag] = title_list
-
-        else:
-            random_dict[tag] = random.sample(title_list, title_num)
-
-    return random_dict
+        """
 
 
-res_dict = all_titles_classify(titles_path, rule_path)
+        for line in open(self.rule_path):
 
+            line = line.decode('utf8')
+            line = line.strip()
+            line = line.split('\t')
+
+            if len(line) != 3:
+                print ("invalid line in rule file")
+                continue
+
+            tag = line[1]
+            regex_list = line[2].split(',')
+
+            self.rule_list.append({tag:regex_list})
+
+        for line in open(self.titles_path):
+
+            line = line.strip()
+            line = line.split('\t')
+            title = line[0]
+            tag = self.find_title_tag(title)
+
+            if tag not in self.res_dict:
+                self.res_dict[tag] = [title]
+
+            else:
+                self.res_dict[tag].append(title)
+
+        return self.res_dict
+
+
+
+    def random_select_titles(self, title_num):
+        """
+        Keyword Arguments:
+        title_num -- titles num in each tag(int > 0)
+        res_dict  -- tag -> title dict(utf8)
+
+        return -- random selected title dict(utf8)
+
+        """
+
+        for tag in self.res_dict:
+            title_list = self.res_dict[tag]
+
+            if len(title_list) <= title_num:
+                self.random_dict[tag] = title_list
+
+            else:
+                self.random_dict[tag] = random.sample(title_list, title_num)
+
+        return self.random_dict
+
+
+
+# ad = '../data/crawled_ad'
+# titles = '../data/titles'
+# rule = '../data/rule.conf'
+
+title_tag = TitleTagger(titles_path='../data/titles',
+                        rule_path='../data/rule.conf')
+
+ad_tag = TitleTagger(titles_path='../data/crawled_ad',
+                     rule_path='../data/rule.conf')
+
+
+#res_dict = title_tag.res_dict
+random_select_titles = title_tag.random_select_titles
+#res_dict = all_titles_classify(titles_path, rule_path)
 #random_dict = random_select_titles(res_dict, 10)
