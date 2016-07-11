@@ -122,5 +122,6 @@ ad_tag = TitleTagger(titles_path='../data/crawled_ad',
 
 #res_dict = title_tag.res_dict
 random_select_titles = title_tag.random_select_titles
+random_select_ad = ad_tag.random_select_titles
 #res_dict = all_titles_classify(titles_path, rule_path)
 #random_dict = random_select_titles(res_dict, 10)

@@ -8,6 +8,7 @@ from flask import send_from_directory, request, Response
 from flask import render_template
 import random
 from data import random_select_titles
+from data import random_select_ad
 
 
 
@@ -21,7 +22,8 @@ def send_file(filename):
 @app.route('/')
 def index():
     return render_template('index.tmpl',
-                           res_dict=random_select_titles(10))
+                           res_dict=random_select_titles(10),
+                           ad_dict=random_select_ad(5))
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
