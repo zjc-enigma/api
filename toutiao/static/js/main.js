@@ -18,7 +18,7 @@ $(document).ready(function() {
 	});
 
     $( 'a#process_input' ).bind('click', function() {
-				$.getJSON('/generate', {
+				$.getJSON('/demos/ad_crawl/generate', {
 				    inputword: $('input[name="inputword"]').val(),
 
 				}, function(data) {
