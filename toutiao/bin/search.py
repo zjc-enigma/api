@@ -16,10 +16,11 @@ from data import title_tag
 
 class SearchToutiao(object):
 
-    def __init__(self, keywords, count=20, offset=0):
+    def __init__(self, keywords, count=20, offset=0, search_limit=200):
         self.keywords = keywords
         self.count = count
         self.offset = offset
+        self.search_limit = search_limit
         self.search_res_list = []
         self.tagged_res_dict = {}
 
@@ -30,13 +31,35 @@ class SearchToutiao(object):
         api_url = base_api.format(offset=self.offset,
                                   keywords=self.keywords,
                                   count=self.count)
-
         headers = myutils.get_test_header()
-        ret = requests.get(api_url, headers=headers)
 
-        ret_json = json.loads(ret.text)
+        ret_html = ""
+        res_list = []
 
-        res_list = ret_json['data']
+        try:
+            ret = requests.get(api_url, headers=headers)
+            ret_html = ret.text
+            ret_json = json.loads(ret_html)
+            res_list = ret_json['data']
+
+            while ret_json["has_more"] == 1 and len(res_list) < self.search_limit:
+                self.offset += self.count
+                api_url = base_api.format(offset=self.offset,
+                                          keywords=self.keywords,
+                                          count=self.count)
+                ret = requests.get(api_url, headers=headers)
+                ret_json = json.loads(ret_html)
+                res_list += ret_json['data']
+
+        except ValueError, ve:
+            print ("html return %s" % ret_html)
+
+        except Exception, e:
+            print ("html return %s" % ret_html)
+            print ("exception type: %s" %  type(e))
+            print ("exception during search : %s ") % str(e)
+
+
 
         return res_list
 
