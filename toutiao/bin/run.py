@@ -9,10 +9,33 @@ from flask import render_template
 import random
 from data import random_select_titles
 from data import random_select_ad
+from search import SearchToutiao
+
+import json
 
 
 
 app = Flask(__name__, static_folder="../static", template_folder="../templates")
+
+
+
+
+
+
+@app.route('/generate')
+def search():
+
+    keyword = request.args.get('inputword')
+    print "looking up word: %s" % keyword
+
+
+    st = SearchToutiao(keyword)
+    res_dict = st.get_tagged_res()
+
+    return json.dumps(res_dict)
+
+
+
 
 
 @app.route('/<path:filename>')

@@ -15,7 +15,9 @@ class TitleTagger(object):
         self.rule_path = rule_path
         self.rule_list = []
         self.res_dict = {}
-        self.all_titles_classify()
+        self._load_rules()
+        self._all_titles_classify()
+
         self.random_dict = {}
 
 
@@ -42,17 +44,7 @@ class TitleTagger(object):
         return "未知体"
 
 
-
-    def all_titles_classify(self):
-        """
-        Keyword Arguments:
-        title_path -- all titles data file path ; all titles string(utf8)
-        rule_path  -- all classify rule file path ; all rule string(utf8)
-
-        return -- classified list, key is rule tag(utf8) ; value is titles(utf8)
-
-        """
-
+    def _load_rules(self):
 
         for line in open(self.rule_path):
 
@@ -68,6 +60,19 @@ class TitleTagger(object):
             regex_list = line[2].split(',')
 
             self.rule_list.append({tag:regex_list})
+
+
+    def titles_classify(self, title_list):
+        pass
+
+
+    def _all_titles_classify(self):
+        """
+        Keyword Arguments:
+
+        return -- classified list, key is rule tag(utf8) ; value is titles(utf8)
+
+        """
 
         for line in open(self.titles_path):
 
