@@ -146,7 +146,7 @@
                 <li><a href="#orgheadline1level">随机标题   <span class="tag"><span class="title">标题文案</span></span></a>
                 <ul>
                     {% for tag, title_list in res_dict.iteritems() %}
-                        <li><a href="#orgheadline{{loop.index}}">{{loop.index}}. {{tag|e}}</a></li>
+                        <li><a href="#orgheadline{{loop.index}}">{{tag|e}}</a></li>
                     {% endfor %}
                 </ul>
                 </li>
@@ -154,15 +154,16 @@
                 <li><a href="#orgheadline2level">随机广告  <span class="tag"><span class="ad">广告文案</span></span></a>
                     <ul>
                         {% for tag, title_list in ad_dict.iteritems() %}
-                            <li><a href="#orgheadline{{loop.index + 10}}">{{loop.index + 10}}. {{tag|e}}</a></li>
+                            <li><a href="#orgheadline{{loop.index + 10}}">{{tag|e}}</a></li>
                         {% endfor %}
 
                     </ul>
                 </li>
-
-                <li><a href="#orgheadline3level">文案搜索  <span class="tag"><span class="ad">文案搜索</span></span></a>
-                    
-                </li>
+                    <li><a href="#orgheadline3level">文案搜索  <span class="tag"><span class="ad">文案搜索</span></span></a>
+                        <ul>
+                            <div class="searchtags"></div>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

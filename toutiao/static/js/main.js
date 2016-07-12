@@ -7,11 +7,13 @@ function capitalizeEachWord(str) {
 $(document).ready(function() {
     $words = $(".words");
 	  $title = $(".title");
+    $searchtag = $(".searchtags");
 
 	$('.generate').click(function(e) {
 		e.preventDefault;
 		  $title.hide();
       $words.hide();
+      $searchtag.hide();
 
 	});
 
@@ -22,21 +24,25 @@ $(document).ready(function() {
 				}, function(data) {
             var output="";
             var loop_count = 0;
+            var search_tag_content = "";
 
             for (var key in data){
-                output += '<div id="outline-container-orgheadline"' + loop_count.toString() + 'search class="outline-3">'
-                output += '<h3 id="orgheadline' + loop_count.toString() + 'search">' + key + '</h3>'
-                output += '<div class="table-responsive">'
-                output += '<table class="table table-striped">'
-                output += '<tbody>'
+                search_tag_content += '<li><a href="#orgheadline' + loop_count.toString() + 'search">' + key + '</a></li>';
+                output += '<div id="outline-container-orgheadline"' + loop_count.toString() + 'search class="outline-3">';
+                output += '<h3 id="orgheadline' + loop_count.toString() + 'search">' + key + '</h3>';
+                output += '<div class="table-responsive">';
+                output += '<table class="table table-striped">';
+                output += '<tbody>';
                 for (var i in data[key]){
-                    output += '<tr><td><a href="' + data[key][i].url + '">' + data[key][i].title + '</a></td></tr>'
+                    output += '<tr><td><a href="' + data[key][i].url + '">' + data[key][i].title + '</a></td></tr>';
                 }
-                output += '</tbody>'
-                output += '</table>'
-                output += '</div>'
+                output += '</tbody>';
+                output += '</table>';
+                output += '</div>';
                 loop_count += 1;
             }
+            $searchtag.html(search_tag_content);
+            $searchtag.show();
             $words.html(output);
             $words.show();
             window.location="#orgheadline3level";

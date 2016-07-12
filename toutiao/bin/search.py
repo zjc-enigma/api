@@ -16,7 +16,7 @@ from data import title_tag
 
 class SearchToutiao(object):
 
-    def __init__(self, keywords, count=20, offset=0, search_limit=200):
+    def __init__(self, keywords, count=20, offset=0, search_limit=100):
         self.keywords = keywords
         self.count = count
         self.offset = offset
@@ -48,6 +48,7 @@ class SearchToutiao(object):
                                           keywords=self.keywords,
                                           count=self.count)
                 ret = requests.get(api_url, headers=headers)
+                ret_html = ret.text
                 ret_json = json.loads(ret_html)
                 res_list += ret_json['data']
 
