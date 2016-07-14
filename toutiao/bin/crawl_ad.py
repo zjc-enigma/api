@@ -14,8 +14,14 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import time
 
+
+
+
+options = webdriver.ChromeOptions()
+options.add_argument('--user-agent=' + myutils.get_random_ua_header()['User-Agent'])
+
 base_url = 'http://m.toutiao.com/'
-browser = webdriver.Chrome()
+browser = webdriver.Chrome(chrome_options=options)
 browser.get(base_url)
 browser.refresh()
 
@@ -93,3 +99,6 @@ if __name__=="__main__":
 
     wfd.close()
 
+    # delete all cookies 
+    browser.delete_all_cookies()
+    browser.close()
