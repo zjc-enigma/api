@@ -4,7 +4,7 @@ from os.path import isfile, join
 import sys
 reload(sys)
 sys.setdefaultencoding('UTF8')
-sys.path.append("/Users/Patrick/Git")
+sys.path.append("/home/liberty/Git")
 from utils import myutils
 import requests
 from pyquery import PyQuery as pq
@@ -101,4 +101,5 @@ if __name__=="__main__":
 
     # delete all cookies 
     browser.delete_all_cookies()
-    browser.close()
+    browser.quit()
+    #browser.close()
