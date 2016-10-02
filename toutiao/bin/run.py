@@ -2,7 +2,7 @@
 import sys
 reload(sys)
 sys.setdefaultencoding('UTF8')
-sys.path.append('/home/liberty/Git')
+sys.path.append('/Users/Patrick/Git')
 from flask import Flask
 from flask import send_from_directory, request, Response
 from flask import render_template
@@ -18,7 +18,7 @@ import json
 app = Flask(__name__, static_folder="../static", template_folder="../templates")
 
 
-@app.route('/demos/ad_crawl/generate')
+@app.route('/generate')
 def search():
 
     keyword = request.args.get('inputword')
@@ -35,7 +35,7 @@ def search():
 def send_file(filename):
     return send_from_directory(app.static_folder, filename)
 
-@app.route('/demos/ad_crawl')
+@app.route('/')
 def index():
     return render_template('index.tmpl',
                            res_dict=random_select_titles(10),
